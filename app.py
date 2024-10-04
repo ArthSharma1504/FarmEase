@@ -211,7 +211,7 @@ def index():
 
 
 def get_weather_data(city):
-    api_key = '759f8c8419a3090b77dface5eb5e88aa'
+    api_key = 'your weather api key'
     current_url = 'http://api.openweathermap.org/data/2.5/weather'
     forecast_url = 'http://api.openweathermap.org/data/2.5/forecast'
     
