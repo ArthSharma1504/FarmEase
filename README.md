@@ -1,15 +1,18 @@
 # Farmer Profile Management System
 
 ## Description
+
 This project is a web application that allows farmers to manage their profiles, including updating personal information, uploading profile pictures, and maintaining contact details. It is built using Flask as the backend framework and a SQLite database for storage.
 
 ## Features
+
 - User registration and authentication
 - Profile management for updating personal information
 - File upload for profile pictures
 - Responsive design for mobile and desktop
 
 ## Technologies Used
+
 - Python
 - Flask
 - SQLAlchemy
@@ -18,7 +21,9 @@ This project is a web application that allows farmers to manage their profiles, 
 - JavaScript
 
 ## Prerequisites
+
 Make sure you have the following installed on your system:
+
 - Python 3.x
 - pip (Python package installer)
 
@@ -26,10 +31,10 @@ Make sure you have the following installed on your system:
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/arthsharma1504/farmer-profile-management.git
+   git clone https://github.com/arthsharma1504/FarmEase.git
+   ```
 2. **Navigate to the project directory:**
    cd farmer-profile-management
-   
 3. Install the required packages:
    pip install -r requirements.txt
 
@@ -54,16 +59,16 @@ Manage your profile: After logging in, you can view and edit your profile inform
 
 farmer-profile-management/
 │
-├── app.py                 # Main application file
-├── models.py              # Database models
-├── forms.py               # Forms for user input
-├── static/                # Static files (CSS, JS, images)
-│   └── uploads/           # Uploaded profile pictures
-├── templates/             # HTML templates
-│   ├── my_Profile.html    # Profile management page
-│   └── other templates...
-├── requirements.txt       # Python packages required for the project
-└── .env                   # Environment variables (if used)
+├── app.py # Main application file
+├── models.py # Database models
+├── forms.py # Forms for user input
+├── static/ # Static files (CSS, JS, images)
+│ └── uploads/ # Uploaded profile pictures
+├── templates/ # HTML templates
+│ ├── my_Profile.html # Profile management page
+│ └── other templates...
+├── requirements.txt # Python packages required for the project
+└── .env # Environment variables (if used)
 
 Contributing
 If you would like to contribute to this project, please fork the repository and submit a pull request.
