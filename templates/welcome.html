@@ -74,15 +74,43 @@
             transform: scale(1.1);
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
         }
+
+        /* Style for login/register buttons */
+        .auth-buttons {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+        }
+
+        .auth-buttons a {
+            padding: 10px 15px;
+            margin-left: 10px;
+            background-color: #fff;
+            color: #333;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease;
+        }
+
+        .auth-buttons a:hover {
+            background-color: #f0f0f0;
+        }
     </style>
 </head>
 <body>
 
-    
     <video autoplay muted loop>
-        <source src="{{ url_for('static', filename='videos/v1.mp4') }}" type="video/mp4">
+        <source src="{{ url_for('static', filename='videos/old.mp4') }}" type="video/mp4">
         Your browser does not support the video tag.
     </video>
+
+    <!-- Login and Register Buttons -->
+    <div class="auth-buttons">
+        <a href="{{ url_for('login') }}">Login</a>
+        <a href="{{ url_for('register') }}">Register</a>
+    </div>
 
     <div class="next-button" onclick="window.location.href='{{ url_for('next_page') }}';">
         <h1>मम कार्यम्</h1>

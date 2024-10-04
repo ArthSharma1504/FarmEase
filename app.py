@@ -41,7 +41,14 @@ with app.app_context():
   
 @app.route('/')
 def indi():
-    return render_template('welcome.html')
+    # Check if the user is logged in by checking session
+    if 'username' in session:
+        # If logged in, show the greeting message
+        return f"Hello, {session['username']}! You are logged in."
+    else:
+        # If not logged in, render the welcome page
+        return render_template('welcome.html')
+
 
 # --------------------------------------------------------------------------------
 # registration route
@@ -52,7 +59,7 @@ def register():
         username = request.form['username']
         email = request.form['email']
         password = request.form['password']
-        hashed_password = generate_password_hash(password, method='sha256')
+        hashed_password = generate_password_hash(password, method='pbkdf2:sha256')
 
         # Check if the user already exists
         existing_user = User.query.filter_by(username=username).first()
