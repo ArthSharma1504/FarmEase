@@ -127,10 +127,45 @@ def soil_profile():
 
 # ---------------------------------------------------------------------------------------
 
-@app.route('/next_page')
-def next_page():
-    # Add logic for handling the next page
-    return render_template('next_page.html')
+@app.route('/my_Profile')
+def my_Profile():
+    if 'username' in session:
+        username = session['username']
+        # Retrieve user information from the database
+        user = User.query.filter_by(username=username).first()
+        if user:
+            return render_template('my_Profile.html', user=user)
+    flash('Please log in to view your profile.', 'error')
+    return redirect(url_for('login'))
+
+
+@app.route('/update_profile', methods=['POST'])
+def update_profile():
+    if 'username' in session:
+        username = session['username']
+        
+        # Handle file upload
+        profile_picture = request.files['profile_picture']
+        if profile_picture:
+            profile_picture.save(f'static/uploads/{profile_picture.filename}')  # Save the file to the uploads folder
+
+        telephone = request.form['telephone']
+        email = request.form['email']
+        location = request.form['location']
+
+        # Update the user's profile in the database
+        user = User.query.filter_by(username=username).first()
+        user.telephone = telephone
+        user.email = email
+        user.location = location
+        user.profile_picture = profile_picture.filename if profile_picture else user.profile_picture
+        
+        db.session.commit()
+        flash('Profile updated successfully!', 'success')
+        return redirect(url_for('my_Profile'))
+
+    flash('Please log in to update your profile.', 'error')
+    return redirect(url_for('login'))
 
 # ---------------------------------------------------------------------------------------
 

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/myProfile.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>My Profile</h1>
+        <p>Below is your profile information. You can edit your details and upload your profile picture.</p>
+        
+        <form action="/update_profile" method="POST" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="profile_picture">Profile Picture:</label>
+                <input type="file" id="profile_picture" name="profile_picture" accept="image/*">
+            </div>
+            <div class="form-group">
+                <label for="telephone">Telephone Number:</label>
+                <input type="text" id="telephone" name="telephone" value="{{ user.telephone }}" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" value="{{ user.email }}" required>
+            </div>
+            <div class="form-group">
+                <label for="location">Farm Location:</label>
+                <textarea id="location" name="location" required>{{ user.location }}</textarea>
+            </div>
+            <input type="submit" value="Update Profile">
+        </form>
+    </div>
+</body>
+</html>
