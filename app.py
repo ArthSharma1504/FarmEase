@@ -41,14 +41,12 @@ with app.app_context():
   
 @app.route('/')
 def indi():
-    # Check if the user is logged in by checking session
     if 'username' in session:
-        # If logged in, show the greeting message
-        return f"Hello, {session['username']}! You are logged in."
+        # Pass the username to the welcome.html template
+        return render_template('welcome.html', username=session['username'])
     else:
-        # If not logged in, render the welcome page
-        return render_template('welcome.html')
-
+        # Render the welcome.html template without user details
+        return render_template('welcome.html', username=None)
 
 # --------------------------------------------------------------------------------
 # registration route
@@ -105,7 +103,7 @@ def login():
 def logout():
     session.pop('username', None)
     flash('You have been logged out.', 'info')
-    return redirect(url_for('login'))
+    return redirect(url_for('indi'))
 
 # --------------------------------------------------------------------------------
 
