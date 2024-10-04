@@ -3,97 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Government Schemes for Farmers</title>
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            margin: 0;
-            padding: 0;
-            background: url('bg_2.jpg') no-repeat center center fixed; /* Replace with actual background */
-            background-size: cover;
-            color: #fff;
-        }
-        .overlay {
-            background-color: rgba(0, 0, 0, 0.6); /* Slight dark overlay to make content stand out */
-            min-height: 100vh;
-            padding: 50px 0;
-        }
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            text-align: center;
-            padding: 20px;
-            background-color: rgba(255, 255, 255, 0.9);
-            border-radius: 10px;
-            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
-        }
-        h1 {
-            color: #2d6a4f;
-            font-size: 36px;
-            margin-bottom: 30px;
-            font-family: 'Georgia', serif;
-        }
-        ul {
-            list-style-type: none;
-            padding: 0;
-        }
-        li {
-            margin: 15px 0;
-        }
-        a {
-            display: block;
-            padding: 15px;
-            background-color: #2d6a4f;
-            color: white;
-            text-align: center;
-            text-decoration: none;
-            border-radius: 8px;
-            font-size: 20px;
-            font-weight: bold;
-            transition: background-color 0.3s;
-        }
-        a:hover {
-            background-color: #1b4332;
-        }
-        footer {
-            margin-top: 30px;
-            color: #dcdcdc;
-            text-align: center;
-        }
-        p {
-            font-size: 18px;
-            font-family: 'Arial', sans-serif;
-        }
-    </style>
+    <title>Government Schemes for Farmers in India</title>
+    <link rel="stylesheet" href="{{url_for('static',filename='styles/govt_link.css')}}">
 </head>
 <body>
-
-    <div class="overlay">
-        <div class="container">
-            <h1>सरकारी योजनाएँ (Government Schemes)</h1>
+    <header>
+        <h1>Government Schemes for Farmers in India</h1>
+        <nav>
             <ul>
-                <li>
-                    <a href="https://example.com/scheme1" target="_blank">प्रधानमंत्री फसल बीमा योजना</a>
-                </li>
-                <li>
-                    <a href="https://example.com/scheme2" target="_blank">किसान क्रेडिट कार्ड (KCC) योजना</a>
-                </li>
-                <li>
-                    <a href="https://example.com/scheme3" target="_blank">प्रधानमंत्री कृषि सिंचाई योजना</a>
-                </li>
-                <li>
-                    <a href="https://example.com/scheme4" target="_blank">राष्ट्रीय कृषि बाजार (eNAM)</a>
-                </li>
-                <li>
-                    <a href="https://example.com/scheme5" target="_blank">मिट्टी स्वास्थ्य कार्ड योजना</a>
-                </li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#schemes">Schemes</a></li>
+                <li><a href="#contact">Contact Us</a></li>
             </ul>
-        </div>
+        </nav>
+    </header>
 
-        <footer>
-            <p>खेती के लिए सर्वोत्तम योजनाओं की जानकारी यहाँ पाएं</p>
-        </footer>
-    </div>
+    <main>
+        <section id="about">
+            <h2>About Us</h2>
+            <p>We provide comprehensive information about various government schemes aimed at supporting farmers in India.</p>
+        </section>
 
+        <section id="schemes">
+            <h2>Available Schemes</h2>
+            <article>
+                <h3>Pradhan Mantri Kisan Samman Nidhi</h3>
+                <p>A direct income support scheme for farmers.</p>
+                <a href="https://example.com/scheme1" target="_blank">Learn More</a>
+            </article>
+            <article>
+                <h3>Soil Health Card Scheme</h3>
+                <p>Promotes sustainable farming through soil health management.</p>
+                <a href="https://example.com/scheme2" target="_blank">Learn More</a>
+            </article>
+            <article>
+                <h3>National Agriculture Market (eNAM)</h3>
+                <p>A pan-India electronic trading portal for agricultural commodities.</p>
+                <a href="https://example.com/scheme3" target="_blank">Learn More</a>
+            </article>
+            <article>
+                <h3>Pradhan Mantri Fasal Bima Yojana</h3>
+                <p>Crop insurance scheme for farmers to safeguard against losses.</p>
+                <a href="https://example.com/scheme4" target="_blank">Learn More</a>
+            </article>
+            <article>
+                <h3>Kisan Credit Card Scheme</h3>
+                <p>Provides farmers with credit facilities for agricultural needs.</p>
+                <a href="https://example.com/scheme5" target="_blank">Learn More</a>
+            </article>
+        </section>
+    </main>
+
+    <footer>
+        <section id="contact">
+            <h2>Contact Us</h2>
+            <p>Email: info@farmerschemes.in</p>
+            <p>Phone: +91-123-456-7890</p>
+        </section>
+        <p>&copy; 2023 Government Schemes for Farmers in India</p>
+    </footer>
 </body>
 </html>
