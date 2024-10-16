@@ -76,3 +76,42 @@ video {
   color: #fff;
   font-size: 18px;
 }
+
+/* Notification Bell Styles */
+/* Notification Bell Styles */
+.notification-bell {
+  position: fixed;
+  top: 20px; /* Distance from the top */
+  left: 20px; /* Distance from the left */
+  cursor: pointer;
+  z-index: 100; /* Ensures the bell stays on top of other elements */
+}
+
+.bell-icon {
+  width: 80px;
+  height: 80px;
+  background-image: url("../icons/bell.png"); /* Adjust the path to your bell icon */
+  background-size: cover;
+  position: relative;
+  border-radius: 30%;
+}
+
+.bell-icon.alert {
+  background-image: url("../icons/bell-alert.png");
+}
+
+.notification-popup {
+  display: none;
+  position: absolute;
+  top: 50px; /* Positions the popup below the bell */
+  left: 0;
+  background-color: white;
+  border: 1px solid #ccc;
+  padding: 10px;
+  width: 200px;
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.notification-popup.visible {
+  display: block;
+}

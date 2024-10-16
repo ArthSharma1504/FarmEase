@@ -11,73 +11,87 @@ body {
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-color: #f9f9f9;
+  background-color: #e6f7e9;
+  padding: 20px;
+  flex-direction: column;
 }
 
 h1 {
   text-align: center;
-  margin-bottom: 500px;
-
-  color: #444;
+  margin-bottom: 20px;
+  color: #4b5320; /* Darker green for a fresh, organic feel */
+  font-size: 2rem;
+  font-weight: bold;
 }
 
 form {
-  background-color: #ffffff;
+  background-color: #fff;
   padding: 40px;
-  border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 15px; /* Softer, more rounded edges */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1); /* Subtle shadow for a lifted look */
   width: 100%;
   max-width: 400px;
+  border: 1px solid #cfe2cf;
 }
 
 label {
   display: block;
   margin-bottom: 8px;
   font-weight: bold;
-  color: #444;
+  color: #3d3d3d; /* Soft contrast with green */
+  font-size: 1.1rem;
 }
 
 input[type="text"],
 input[type="email"],
 input[type="password"] {
   width: 100%;
-  padding: 10px;
+  padding: 12px;
   margin-bottom: 20px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  font-size: 16px;
+  border: 2px solid #b2c4b2; /* Softer, nature-like border color */
+  border-radius: 8px;
+  font-size: 1.1rem;
+  color: #333;
+  background-color: #f7fdf7;
 }
 
 button[type="submit"] {
   width: 100%;
-  padding: 10px;
-  background-color: #28a745;
+  padding: 12px;
+  background-color: #5a9c5a; /* Nature-inspired green color */
   color: white;
   border: none;
-  border-radius: 5px;
+  border-radius: 8px;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 1.2rem;
+  font-weight: bold;
   transition: background-color 0.3s;
 }
 
 button[type="submit"]:hover {
-  background-color: #218838;
+  background-color: #4b8b4b; /* Darker green on hover */
 }
 
+/* Paragraph styling */
 p {
   text-align: center;
   margin-top: 20px;
+  font-size: 1rem;
+  color: #4b5320;
 }
 
+/* Link styling */
 a {
-  color: #28a745;
+  color: #4b8b4b; /* Green link color */
   text-decoration: none;
+  font-weight: bold;
 }
 
 a:hover {
   text-decoration: underline;
 }
 
+/* Flash messages */
 ul {
   list-style: none;
   margin-top: 20px;
@@ -85,17 +99,22 @@ ul {
 }
 
 li {
-  padding: 10px;
-  border-radius: 5px;
+  padding: 12px;
+  border-radius: 8px;
   margin-bottom: 10px;
+  font-size: 1rem;
 }
 
+/* Success message styling */
 li.success {
-  background-color: #d4edda;
-  color: #155724;
+  background-color: #d9f0d9;
+  color: #2e662e;
+  border: 2px solid #a5d6a5;
 }
 
+/* Error message styling */
 li.error {
   background-color: #f8d7da;
   color: #721c24;
+  border: 2px solid #f5c6cb;
 }

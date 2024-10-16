@@ -48,5 +48,36 @@
     </div>
     {% endif %}
 
+    <div class="notification-bell">
+        <div class="bell-icon" id="bell-icon"></div>
+        <div class="notification-popup" id="notification-popup">
+            <h4>Weather Updates</h4>
+            <div id="weather-notification">No new notifications</div>
+        </div>
+    </div>
+
+    <script>
+        // Toggle the notification popup
+        document.getElementById('bell-icon').addEventListener('click', function () {
+            const popup = document.getElementById('notification-popup');
+            popup.classList.toggle('visible');
+        });
+
+        // Function to check for new weather updates and show notification
+        function checkWeatherNotification() {
+            fetch('{{ url_for("get_weather_notifications") }}')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.has_new_update) {
+                        document.getElementById('bell-icon').classList.add('alert');
+                        document.getElementById('weather-notification').innerText = data.notification_message;
+                    }
+                });
+        }
+
+        // Periodically check for new notifications
+        setInterval(checkWeatherNotification, 60000); // Check every 60 seconds
+    </script>
+
 </body>
 </html>

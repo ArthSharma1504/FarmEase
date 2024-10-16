@@ -3,6 +3,10 @@ import requests
 from flask import Flask, render_template, request, jsonify, session, redirect, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
+from flask_wtf import CSRFProtect
+from wtforms import StringField, PasswordField, SubmitField
+from flask_wtf import FlaskForm
+from wtforms.validators import DataRequired, Email
 
 app = Flask(__name__)
 babel = Babel(app)
@@ -10,6 +14,7 @@ babel = Babel(app)
 # Define the languages you want to support
 LANGUAGES = ['en', 'fr']
 app.config['LANGUAGES'] = LANGUAGES
+csrf = CSRFProtect(app)
 
 # @babel.localeselector
 # def get_locale():
@@ -51,12 +56,19 @@ def indi():
 # --------------------------------------------------------------------------------
 # registration route
 
+class RegistrationForm(FlaskForm):
+    username = StringField('Username', validators=[DataRequired()])
+    email = StringField('Email', validators=[DataRequired(), Email()])
+    password = PasswordField('Password', validators=[DataRequired()])
+    submit = SubmitField('Register')
+
 @app.route('/register', methods=['GET', 'POST'])
 def register():
-    if request.method == 'POST':
-        username = request.form['username']
-        email = request.form['email']
-        password = request.form['password']
+    form = RegistrationForm()  # Use the form for validation
+    if form.validate_on_submit():  # Check if form submission is valid (with CSRF protection)
+        username = form.username.data
+        email = form.email.data
+        password = form.password.data
         hashed_password = generate_password_hash(password, method='pbkdf2:sha256')
 
         # Check if the user already exists
@@ -65,6 +77,7 @@ def register():
             flash('Username already exists. Please choose another one.', 'error')
             return redirect(url_for('register'))
 
+        # Create and save the new user
         new_user = User(username=username, email=email, password=hashed_password)
         db.session.add(new_user)
         db.session.commit()
@@ -72,17 +85,24 @@ def register():
         flash('Registration successful! Please log in.', 'success')
         return redirect(url_for('login'))
 
-    return render_template('register.html')
+    # If GET request or form validation fails
+    return render_template('register.html', form=form)
 
 
 # --------------------------------------------------------------------------------
 # Login route
 
+class LoginForm(FlaskForm):
+    username = StringField('Username', validators=[DataRequired()])
+    password = PasswordField('Password', validators=[DataRequired()])
+    submit = SubmitField('Login')
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
+    form = LoginForm()
+    if form.validate_on_submit():  # Check if the form is submitted and valid
+        username = form.username.data
+        password = form.password.data
 
         user = User.query.filter_by(username=username).first()
 
@@ -93,8 +113,7 @@ def login():
         else:
             flash('Invalid username or password. Please try again.', 'error')
 
-    return render_template('login.html')
-
+    return render_template('login.html', form=form)
 
 # --------------------------------------------------------------------------------
 # Logout route
@@ -106,6 +125,7 @@ def logout():
     return redirect(url_for('indi'))
 
 # --------------------------------------------------------------------------------
+
 
 @app.route('/crop_recommendations')
 def crop_recommendations():
@@ -169,7 +189,7 @@ def update_profile():
 
 # ---------------------------------------------------------------------------------------
 
-
+@csrf.exempt
   
 @app.route('/show_weather')
 def show_weather():
@@ -197,7 +217,7 @@ def set_language():
     session['language'] = language  # Store the selected language in the session
     return jsonify({'status': 'success', 'language': language})
 # ---------------------------------------------------------------------------------------
-
+@csrf.exempt
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -208,8 +228,69 @@ def index():
 
     return render_template('indi.html', current_weather=None, forecast_weather=None, error_message=None)
 # ---------------------------------------------------------------------------------------
+# Notification route
+@csrf.exempt
+def reverse_geocode(lat, lon):
+    api_key = '759f8c8419a3090b77dface5eb5e88aa'
+    geocode_url = f'http://api.openweathermap.org/geo/1.0/reverse?lat={lat}&lon={lon}&limit=1&appid={api_key}'
+    
+    response = requests.get(geocode_url)
+    data = response.json()
 
+    if response.status_code == 200 and data:
+        return data[0]['name']  # Extract city name
+    else:
+        return None
+@csrf.exempt
+# Route to receive user coordinates and set the city in session
+@app.route('/update_user_location', methods=['POST'])
+def update_user_location():
+    if 'username' in session:
+        data = request.json
+        lat = data.get('latitude')
+        lon = data.get('longitude')
 
+        city = reverse_geocode(lat, lon)
+        if city:
+            session['user_city'] = city
+            return jsonify({'success': True, 'city': city})
+        else:
+            return jsonify({'success': False, 'error': 'Failed to get city from coordinates'}), 500
+    return jsonify({'success': False, 'error': 'User not logged in'}), 401
+
+# Modify the weather notifications route to use the city in session
+@csrf.exempt
+@app.route('/get_weather_notifications')
+def get_weather_notifications():
+    if 'username' in session:
+        city = session.get('user_city', 'indore')  # Use city from session or default city
+        current_weather, _, error = get_weather_data(city)
+
+        if error:
+            return jsonify({
+                'has_new_update': False,
+                'notification_message': 'Failed to fetch weather data.'
+            })
+
+        # Simulate weather alert based on conditions (e.g., temperature or rain)
+        if current_weather:
+            if current_weather['temperature'] < 10:
+                return jsonify({
+                    'has_new_update': True,
+                    'notification_message': f"Weather Alert: It's cold in {current_weather['city']}! Current temp: {current_weather['temperature']}°C"
+                })
+            elif 'rain' in current_weather['description'].lower():
+                return jsonify({
+                    'has_new_update': True,
+                    'notification_message': f"Weather Alert: It's raining in {current_weather['city']}!"
+                })
+            else:
+                return jsonify({'has_new_update': False, 'notification_message': 'No new weather alerts.'})
+        return jsonify({'has_new_update': False, 'notification_message': 'No weather data available.'})
+    return jsonify({'has_new_update': False, 'notification_message': 'Please log in to receive notifications.'})
+
+# ------------------------------------------------------------------------------------------
+@csrf.exempt
 def get_weather_data(city):
     api_key = '759f8c8419a3090b77dface5eb5e88aa'
     current_url = 'http://api.openweathermap.org/data/2.5/weather'
