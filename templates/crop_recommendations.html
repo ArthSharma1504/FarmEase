@@ -5,8 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Crop Recommendations</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/crop.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
+    <div class="container">
+        <!-- Left Section: Crop Recommendations -->
+        <div class="crop-recommendations">
     <h2>Crop Recommendations</h2>
     <table>
         <thead>
@@ -100,5 +104,36 @@
             </tr>
         </tbody>
     </table>
+</div>
+
+<!-- right side  -->
+
+<div class="crop-pricing">
+    <h2>Crop Pricing</h2>
+    <table id="pricing-table">
+        <thead>
+            <tr>
+                <th>Sl. No.</th>
+                <th>Crop</th>
+                <th>Commodity</th>
+                <th>Variety</th>
+                <th>2019-20</th>
+                <th>2020-21</th>
+                <th>2021-22</th>
+                <th>2022-23</th>
+                <th>2023-24</th>
+                <th>2024-25</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Pricing data will be dynamically inserted here -->
+        </tbody>
+    </table>
+    <h3>Crop Price Trends</h3>
+    <canvas id="price-chart" width="400" height="200"></canvas>
+</div>
+
+
+<script src="{{ url_for('static', filename='scripts/crop.js') }}"></script>
 </body>
 </html>

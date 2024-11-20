@@ -7,6 +7,7 @@ from flask_wtf import CSRFProtect
 from wtforms import StringField, PasswordField, SubmitField
 from flask_wtf import FlaskForm
 from wtforms.validators import DataRequired, Email
+import json
 
 app = Flask(__name__)
 babel = Babel(app)
@@ -124,7 +125,8 @@ def logout():
     flash('You have been logged out.', 'info')
     return redirect(url_for('indi'))
 
-# --------------------------------------------------------------------------------
+
+# ----------------------------------------------------------------------------------
 
 
 @app.route('/crop_recommendations')
@@ -137,6 +139,8 @@ def crop_recommendations():
         # Add more data as needed
     ]
     return render_template('crop_recommendations.html', crop_recommendations=crop_recommendations)
+
+# ---------------------------------------------------------------------------------
 
 
 # ----------------------------------------------------------------------------------------------

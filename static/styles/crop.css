@@ -48,3 +48,80 @@ tr:nth-child(even) {
 tr:hover {
   background-color: #eb8305;
 }
+
+/* -------------------------------------- */
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f9f9f9;
+}
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+  gap: 20px;
+}
+
+.crop-recommendations,
+.crop-pricing {
+  flex: 1;
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+th {
+  background-color: #f4f4f4;
+}
+
+#pricing-list {
+  list-style: none;
+  padding: 0;
+}
+
+#pricing-list li {
+  margin: 10px 0;
+  padding: 10px;
+  background: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+#price-chart {
+  width: 100%; /* Makes the chart responsive */
+  height: 400px; /* Set a reasonable height */
+  margin-top: 20px;
+}
+
+#pricing-table {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+#pricing-table th,
+#pricing-table td {
+  padding: 8px;
+  text-align: center;
+  border: 1px solid #ddd;
+}
