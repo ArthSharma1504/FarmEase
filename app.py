@@ -235,7 +235,7 @@ def index():
 # Notification route
 @csrf.exempt
 def reverse_geocode(lat, lon):
-    api_key = '759f8c8419a3090b77dface5eb5e88aa'
+    api_key = 'your api key'
     geocode_url = f'http://api.openweathermap.org/geo/1.0/reverse?lat={lat}&lon={lon}&limit=1&appid={api_key}'
     
     response = requests.get(geocode_url)
@@ -308,7 +308,7 @@ def get_weather_notifications():
 # ------------------------------------------------------------------------------------------
 @csrf.exempt
 def get_weather_data(city):
-    api_key = '759f8c8419a3090b77dface5eb5e88aa'
+    api_key = 'your api key'
     current_url = 'http://api.openweathermap.org/data/2.5/weather'
     forecast_url = 'http://api.openweathermap.org/data/2.5/forecast'
     
