@@ -273,10 +273,11 @@ def get_weather_notifications():
         if error:
             return jsonify({
                 'has_new_update': False,
-                'notification_message': 'Failed to fetch weather data.'
+                'notification_message': 'Failed to fetch weather data.',
+                'current_weather':'Weather data unavailable'
             })
 
-        # Simulate weather alert based on conditions (e.g., temperature or rain)
+        # Check for weather conditions to generate an alert
         if current_weather:
             if current_weather['temperature'] < 10:
                 return jsonify({
@@ -289,9 +290,20 @@ def get_weather_notifications():
                     'notification_message': f"Weather Alert: It's raining in {current_weather['city']}!"
                 })
             else:
-                return jsonify({'has_new_update': False, 'notification_message': 'No new weather alerts.'})
-        return jsonify({'has_new_update': False, 'notification_message': 'No weather data available.'})
-    return jsonify({'has_new_update': False, 'notification_message': 'Please log in to receive notifications.'})
+                # No alerts but show the current weather
+                return jsonify({
+                    'has_new_update': False,
+                    'notification_message': f"The current weather in {current_weather['city']} is {current_weather['temperature']}°C with {current_weather['description']}."
+                })
+
+        return jsonify({
+            'has_new_update': False,
+            'notification_message': 'No weather data available.'
+        })
+    return jsonify({
+        'has_new_update': False,
+        'notification_message': 'Please log in to receive notifications.'
+    })
 
 # ------------------------------------------------------------------------------------------
 @csrf.exempt

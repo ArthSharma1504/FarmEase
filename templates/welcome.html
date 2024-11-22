@@ -55,29 +55,93 @@
             <div id="weather-notification">No new notifications</div>
         </div>
     </div>
+    
 
     <script>
-        // Toggle the notification popup
-        document.getElementById('bell-icon').addEventListener('click', function () {
-            const popup = document.getElementById('notification-popup');
-            popup.classList.toggle('visible');
+       document.getElementById('bell-icon').addEventListener('click', function () {
+    const popup = document.getElementById('notification-popup');
+    popup.classList.toggle('visible'); // Toggles visibility on click
+});
+
+// Function to check for new weather updates and show notification
+function checkWeatherNotification() {
+    console.log('checkWeatherNotification fired'); // Check if the function is called
+
+    fetch('{{ url_for("get_weather_notifications") }}')
+        .then(response => response.json())
+        .then(data => {
+            console.log('Weather Notification Data:', data);  // Log the full response
+
+            const bellIcon = document.getElementById('bell-icon');
+            const weatherNotification = document.getElementById('weather-notification');
+
+            if (data.has_new_update) {
+                // Case with a new weather alert
+                bellIcon.classList.add('alert');
+                weatherNotification.innerText = data.notification_message;
+            } else {
+                // Case with no new alerts, display current weather
+                bellIcon.classList.remove('alert');
+                if (data.notification_message) {
+                    weatherNotification.innerText = `Current weather: ${data.notification_message}`;
+                } else {
+                    weatherNotification.innerText = "No new notifications.";
+                }
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching weather notification:', error);
+            document.getElementById('weather-notification').innerText = "Error fetching weather updates.";
         });
+}
 
-        // Function to check for new weather updates and show notification
-        function checkWeatherNotification() {
-            fetch('{{ url_for("get_weather_notifications") }}')
-                .then(response => response.json())
-                .then(data => {
-                    if (data.has_new_update) {
-                        document.getElementById('bell-icon').classList.add('alert');
-                        document.getElementById('weather-notification').innerText = data.notification_message;
-                    }
-                });
-        }
+// Periodically check for new notifications every 60 seconds
+setInterval(checkWeatherNotification, 60000); // Check every 60 seconds
 
-        // Periodically check for new notifications
-        setInterval(checkWeatherNotification, 60000); // Check every 60 seconds
     </script>
+    
+
+<!-- to ask for permission -->
+
+<script>
+    function getUserLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    const latitude = position.coords.latitude;
+                    const longitude = position.coords.longitude;
+
+                    // Send location data to the backend
+                    fetch('/update_user_location', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ latitude, longitude }),
+                    })
+                    .then((response) => response.json())
+                    .then((data) => {
+                        if (data.success) {
+                            console.log('City set to:', data.city);
+                        } else {
+                            console.error('Failed to set city:', data.error);
+                        }
+                    })
+                    .catch((error) => console.error('Error sending location data:', error));
+                },
+                (error) => {
+                    console.error('Error getting user location:', error.message);
+                }
+            );
+        } else {
+            console.error('Geolocation is not supported by this browser.');
+        }
+    }
+
+    // Trigger location fetch on page load
+    window.onload = getUserLocation;
+</script>
+
 
 </body>
 </html>
