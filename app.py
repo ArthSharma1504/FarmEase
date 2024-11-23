@@ -10,6 +10,11 @@ from wtforms.validators import DataRequired, Email
 import json
 
 app = Flask(__name__)
+# Set the secret key for your Flask app (required for CSRF and session management)
+app.config['SECRET_KEY'] = 'your_secret_key_here'
+
+# Enable CSRF protection for all forms in the app
+csrf = CSRFProtect(app)
 babel = Babel(app)
 
 # Define the languages you want to support
@@ -30,6 +35,21 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
 # User model
+
+class UserProfile(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    profile_picture = db.Column(db.String(255), nullable=True)  # Path to the profile picture
+    telephone = db.Column(db.String(15), nullable=False)
+    location = db.Column(db.Text, nullable=False)
+    created_at = db.Column(db.DateTime, default=db.func.now())
+    updated_at = db.Column(db.DateTime, default=db.func.now(), onupdate=db.func.now())
+
+    user = db.relationship('User', backref=db.backref('profile', uselist=False, lazy=True))
+
+    def __repr__(self):
+        return f'<UserProfile user_id={self.user_id}>'
+
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), nullable=False, unique=True)
@@ -235,7 +255,7 @@ def index():
 # Notification route
 @csrf.exempt
 def reverse_geocode(lat, lon):
-    api_key = 'your api key'
+    api_key = '750ab95c3ef50eac94338c123603f273'
     geocode_url = f'http://api.openweathermap.org/geo/1.0/reverse?lat={lat}&lon={lon}&limit=1&appid={api_key}'
     
     response = requests.get(geocode_url)
@@ -308,7 +328,7 @@ def get_weather_notifications():
 # ------------------------------------------------------------------------------------------
 @csrf.exempt
 def get_weather_data(city):
-    api_key = 'your api key'
+    api_key = '750ab95c3ef50eac94338c123603f273'
     current_url = 'http://api.openweathermap.org/data/2.5/weather'
     forecast_url = 'http://api.openweathermap.org/data/2.5/forecast'
     
@@ -347,5 +367,10 @@ def get_weather_data(city):
     return None, None, error_message
 
 if __name__ == '__main__':
-    app.secret_key = 'your_secret_key'  # Set a secret key for session management
+    # app.secret_key = 'your_secret_key'  # Set a secret key for session management
+    
+
     app.run(debug=True) 
+
+
+  

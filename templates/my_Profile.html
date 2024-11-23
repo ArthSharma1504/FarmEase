@@ -11,7 +11,8 @@
         <h1>My Profile</h1>
         <p>Below is your profile information. You can edit your details and upload your profile picture.</p>
         
-        <form action="/update_profile" method="POST" enctype="multipart/form-data">
+        <form action="/update_profile" method="POST" enctype="multipart/form-data"
+            {{ csrf_token() }} >
             <div class="form-group">
                 <label for="profile_picture">Profile Picture:</label>
                 <input type="file" id="profile_picture" name="profile_picture" accept="image/*">
